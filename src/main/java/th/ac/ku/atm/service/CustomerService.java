@@ -9,6 +9,7 @@ import th.ac.ku.atm.model.Customer;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 // Single Responsibility : class หนึ่งๆ ทำงานอย่างใดอย่างหนึ่งเท่านั้น
@@ -28,8 +29,8 @@ public class CustomerService {
 
     public Customer findCustomer(int id) {
         try {
-            return repository.findById(id);
-        } catch (EmptyResultDataAccessException e) {
+            return repository.findById(id).get();
+        } catch (NoSuchElementException e) {
             return null;
         }
     }
