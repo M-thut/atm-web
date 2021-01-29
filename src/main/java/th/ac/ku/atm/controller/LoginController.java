@@ -28,19 +28,20 @@ public class LoginController {
     }
     @PostMapping
     public String login(@ModelAttribute Customer customer, Model model) {
-        // 1. เอา id กับ pin ไปเช็คกับข้อมูล customer ที่มีอยู่ ว่าตรงกันบ้างไหม
-        Customer matchingCustomer = customerService.checkPin(customer);
+        Customer storedCustomer = customerService.checkPin(customer);
 
-        // 2. ถ้าตรง ส่งข้อมูล customer กลับไปแสดงผล
-        if (matchingCustomer != null) {
-            model.addAttribute("greeting",
-                    "Welcome, " + matchingCustomer.getName());
+        if (storedCustomer != null) {
+            model.addAttribute("customertitle",
+                    storedCustomer.getName() + " Bank Accounts");
+            model.addAttribute("bankaccounts",
+                    bankAccountService.getCustomerBankAccount(customer.getId()));
+            return "customeraccount";
         } else {
-            // 3. ถ้าไม่ตรง แจ้งว่าไม่มีข้อมูล customer นี้
             model.addAttribute("greeting", "Can't find customer");
+            return "home";
         }
-        return "home";
     }
+
 }
 
 
