@@ -61,4 +61,20 @@ public class BankAccountService {
             return storedBankAccount ;
         } return null ;
     }
+
+    public void openBankAccount(BankAccount bankAccount) {
+        String url = "http://localhost:8091/api/bankaccount" ;
+        restTemplate.postForObject(url, bankAccount, BankAccount.class) ;
+    }
+
+    public BankAccount getBankAccount(int id) {
+        String url = "http://localhost:8091/api/bankaccount/" + id ;
+
+        ResponseEntity<BankAccount> response =
+                restTemplate.getForEntity(url, BankAccount.class) ;
+
+        return response.getBody() ;
+    }
+
+
 }
